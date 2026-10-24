@@ -111,6 +111,11 @@ button:hover {
   background-color: #43a047;
 }
 
+.error {
+  color: red;
+  font-size: 0.85rem;
+}
+
 @media (max-width: 480px) {
   .third,
   .half {

@@ -11,16 +11,18 @@
   <main class="card">
     <h1>Contact Form</h1>
 
-    <form>
+    <form id="contact-form" novalidate>
       <div class="form-grid">
         <div class="field third">
           <label for="first-name">First Name</label>
           <input type="text" id="first-name" name="firstName">
+          <span class="error" id="first-name-error"></span>
         </div>
 
         <div class="field third">
           <label for="last-name">Last Name</label>
           <input type="text" id="last-name" name="lastName">
+          <span class="error" id="last-name-error"></span>
         </div>
 
         <div class="field third">
@@ -36,11 +38,13 @@
         <div class="field third">
           <label for="linkedin">LinkedIn URL</label>
           <input type="url" id="linkedin" name="linkedin">
+          <span class="error" id="linkedin-error"></span>
         </div>
 
         <div class="field third">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email">
+          <span class="error" id="email-error"></span>
         </div>
 
         <div class="field half">
@@ -52,6 +56,7 @@
             <option value="referral">Referral</option>
             <option value="other">Other</option>
           </select>
+          <span class="error" id="how-met-error"></span>
         </div>
 
         <div class="field half">
@@ -81,5 +86,6 @@
       <button type="submit">Submit</button>
     </form>
   </main>
+  <script src="/scripts/script.js"></script>
 </body>
 </html>
