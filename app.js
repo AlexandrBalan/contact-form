@@ -1,21 +1,37 @@
-// import the express module
 import express from 'express';
 
-// create an instance of an express application
 const app = express();
 
-// define a port number for our server to listen on
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 
-// enable static file serving
+const contacts = [];
+
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-// defining a default route ("/")
 app.get('/', (req, res) => {
     res.sendFile(`${import.meta.dirname}/views/index.html`);
 });
 
-// start the server on the designated port
+app.post('/submit', (req, res) => {
+    const contact = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        linkedin: req.body.linkedin,
+        howMet: req.body.howMet,
+        mailingList: req.body.mailingList === 'on',
+        submittedAt: new Date().toLocaleString()
+    };
+
+    contacts.push(contact);
+    res.sendFile(`${import.meta.dirname}/views/confirmation.html`);
+});
+
+app.get('/admin', (req, res) => {
+    res.send(`<h1>All Submissions</h1><pre>${JSON.stringify(contacts, null, 2)}</pre>`);
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
