@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 3002;
 // array to store all the form submissions
 const contacts = [];
 
+// tell express to use ejs
+app.set('view engine', 'ejs');
+
 // enable static file serving
 app.use(express.static('public'));
 
@@ -18,7 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // defining a default route ("/")
 app.get('/', (req, res) => {
-    res.sendFile(`${import.meta.dirname}/views/index.html`);
+    res.render('resume');
+});
+
+// contact form page
+app.get('/contact', (req, res) => {
+    res.render('contact');
 });
 
 // save the form data and show the confirmation page
@@ -39,12 +47,12 @@ app.post('/submit', (req, res) => {
     };
 
     contacts.push(contact);
-    res.sendFile(`${import.meta.dirname}/views/confirmation.html`);
+    res.render('confirmation', { contact });
 });
 
 // admin route that shows all the submissions
 app.get('/admin', (req, res) => {
-    res.send(`<h1>All Submissions</h1><pre>${JSON.stringify(contacts, null, 2)}</pre>`);
+    res.render('admin', { contacts });
 });
 
 // start the server on the designated port
