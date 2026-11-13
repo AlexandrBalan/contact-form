@@ -4,13 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You</title>
+  <link rel="stylesheet" href="/styles/nav.css">
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
+  <%- include('partials/nav') %>
   <main class="card">
-    <h1>Thank you!</h1>
-    <p>Your info was submitted.</p>
-    <a href="/"><button>Back to Form</button></a>
+    <h1>Thank you, <%= contact.firstName %>!</h1>
+    <p>Here is what you sent:</p>
+    <p>Name: <%= contact.firstName %> <%= contact.lastName %></p>
+    <p>Job Title: <%= contact.jobTitle %></p>
+    <p>Company: <%= contact.company %></p>
+    <p>LinkedIn: <%= contact.linkedin %></p>
+    <p>Email: <%= contact.email %></p>
+    <p>How we met: <%= contact.howMet %></p>
+    <p>Other: <%= contact.other %></p>
+    <p>Message: <%= contact.message %></p>
+    <p>Mailing list: <%= contact.mailingList ? 'Yes' : 'No' %></p>
+    <p>Email format: <%= contact.emailFormat %></p>
+    <p>Submitted: <%= contact.submittedAt %></p>
+    <a href="/contact"><button>Back to Form</button></a>
   </main>
 </body>
 </html>
