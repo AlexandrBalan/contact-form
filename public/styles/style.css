@@ -7,13 +7,13 @@ body {
   font-size: 14px;
   background-color: #f2f2f2;
   margin: 0;
-  padding: 10px;
+  padding: 0;
 }
 
 .card {
   background-color: #ffffff;
   max-width: 520px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 10px 20px 20px;
   border-radius: 5px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);

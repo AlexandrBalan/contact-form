@@ -5,6 +5,10 @@
 
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.resume {
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: 0.5px;
