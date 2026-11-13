@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+  <link rel="stylesheet" href="/styles/nav.css">
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <%- include('partials/nav') %>
+  <main class="card">
+    <h1>All Contacts</h1>
+    <% if (contacts.length === 0) { %>
+      <p>No contacts yet.</p>
+    <% } else { %>
+      <% contacts.forEach(function(contact) { %>
+        <div>
+          <p>Name: <%= contact.firstName %> <%= contact.lastName %></p>
+          <p>Job Title: <%= contact.jobTitle %></p>
+          <p>Company: <%= contact.company %></p>
+          <p>LinkedIn: <%= contact.linkedin %></p>
+          <p>Email: <%= contact.email %></p>
+          <p>How we met: <%= contact.howMet %></p>
+          <p>Other: <%= contact.other %></p>
+          <p>Message: <%= contact.message %></p>
+          <p>Mailing list: <%= contact.mailingList ? 'Yes' : 'No' %></p>
+          <p>Email format: <%= contact.emailFormat %></p>
+          <p>Submitted: <%= contact.submittedAt %></p>
+          <hr>
+        </div>
+      <% }); %>
+    <% } %>
+  </main>
+</body>
+</html>
