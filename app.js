@@ -2,6 +2,7 @@ import 'dotenv/config';
 import mysql from 'mysql2/promise';
 // import the express module
 import express from 'express';
+import session from 'express-session';
 
 // create an instance of an express application
 const app = express();
@@ -27,32 +28,66 @@ app.use(express.static('public'));
 // lets the server read the form data
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+
+const validHowMet = ['conference', 'linkedin', 'referral', 'other'];
+
 // defining a default route ("/")
 app.get('/', (req, res) => {
     res.render('resume');
 });
 
+app.get('/portfolio', (req, res) => {
+    res.render('portfolio');
+});
+
 // contact form page
 app.get('/contact', (req, res) => {
-    res.render('contact');
+    res.render('contact', { errors: [], contact: {} });
 });
 
 // save the form data and show the confirmation page
 app.post('/submit', async (req, res) => {
     const contact = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        jobTitle: req.body.jobTitle,
-        company: req.body.company,
-        linkedin: req.body.linkedin,
-        email: req.body.email,
-        howMet: req.body.howMet,
-        other: req.body.other,
-        message: req.body.message,
+        firstName: (req.body.firstName || '').trim(),
+        lastName: (req.body.lastName || '').trim(),
+        jobTitle: (req.body.jobTitle || '').trim(),
+        company: (req.body.company || '').trim(),
+        linkedin: (req.body.linkedin || '').trim(),
+        email: (req.body.email || '').trim(),
+        howMet: req.body.howMet || '',
+        other: (req.body.other || '').trim(),
+        message: (req.body.message || '').trim(),
         mailingList: req.body.mailingList === 'on',
-        emailFormat: req.body.emailFormat,
+        emailFormat: req.body.emailFormat || '',
         submittedAt: new Date().toLocaleString()
     };
+
+    const errors = [];
+
+    if (contact.firstName === '') {
+        errors.push('First name is required.');
+    }
+
+    if (contact.lastName === '') {
+        errors.push('Last name is required.');
+    }
+
+    if (!validHowMet.includes(contact.howMet)) {
+        errors.push('Please pick how we met from the list.');
+    }
+
+    if (contact.mailingList && contact.emailFormat !== 'html' && contact.emailFormat !== 'text') {
+        errors.push('Please choose HTML or Text for your email format.');
+    }
+
+    if (errors.length > 0) {
+        return res.render('contact', { errors, contact });
+    }
 
     await pool.execute(
         `INSERT INTO contacts
@@ -78,6 +113,10 @@ app.post('/submit', async (req, res) => {
 
 // admin route that shows all the submissions
 app.get('/admin', async (req, res) => {
+    if (!req.session.isAdmin) {
+        return res.render('login', { error: req.query.error });
+    }
+
     const [rows] = await pool.execute(
         `SELECT
             first_name AS firstName,
@@ -105,6 +144,16 @@ app.get('/admin', async (req, res) => {
     });
 
     res.render('admin', { contacts });
+});
+
+app.post('/admin/login', (req, res) => {
+    if (req.body.username === process.env.ADMIN_USER &&
+        req.body.password === process.env.ADMIN_PASSWORD) {
+        req.session.isAdmin = true;
+        res.redirect('/admin');
+    } else {
+        res.redirect('/admin?error=1');
+    }
 });
 
 // start the server on the designated port
