@@ -132,6 +132,43 @@ button:hover {
   text-decoration: underline;
 }
 
+.error-box {
+  background-color: #fdecea;
+  border: 1px solid red;
+  color: #b00020;
+  border-radius: 3px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+}
+
+.error-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.card.wide {
+  max-width: 800px;
+}
+
+.project {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.project img {
+  max-width: 100%;
+  height: auto;
+}
+
+input[type="password"] {
+  width: 100%;
+  height: 32px;
+  padding: 6px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  font-size: 12px;
+}
 
 @media (max-width: 480px) {
   .third,
