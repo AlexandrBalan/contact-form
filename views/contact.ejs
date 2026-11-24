@@ -13,39 +13,49 @@
   <main class="card">
     <h1>Contact Form</h1>
 
+    <% if (errors.length > 0) { %>
+      <div class="error-box">
+        <ul>
+          <% errors.forEach(function(error) { %>
+            <li><%= error %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
     <form id="contact-form" method="POST" action="/submit" novalidate>
       <div class="form-grid">
         <div class="field third">
           <label for="first-name">First Name</label>
-          <input type="text" id="first-name" name="firstName">
+          <input type="text" id="first-name" name="firstName" value="<%= contact.firstName || '' %>">
           <span class="error" id="first-name-error"></span>
         </div>
 
         <div class="field third">
           <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" name="lastName">
+          <input type="text" id="last-name" name="lastName" value="<%= contact.lastName || '' %>">
           <span class="error" id="last-name-error"></span>
         </div>
 
         <div class="field third">
           <label for="job-title">Job Title</label>
-          <input type="text" id="job-title" name="jobTitle">
+          <input type="text" id="job-title" name="jobTitle" value="<%= contact.jobTitle || '' %>">
         </div>
 
         <div class="field third">
           <label for="company">Company</label>
-          <input type="text" id="company" name="company">
+          <input type="text" id="company" name="company" value="<%= contact.company || '' %>">
         </div>
 
         <div class="field third">
           <label for="linkedin">LinkedIn URL</label>
-          <input type="url" id="linkedin" name="linkedin">
+          <input type="url" id="linkedin" name="linkedin" value="<%= contact.linkedin || '' %>">
           <span class="error" id="linkedin-error"></span>
         </div>
 
         <div class="field third">
           <label for="email">Email Address</label>
-          <input type="email" id="email" name="email">
+          <input type="email" id="email" name="email" value="<%= contact.email || '' %>">
           <span class="error" id="email-error"></span>
         </div>
 
@@ -53,42 +63,42 @@
           <label for="how-met">How did we meet?</label>
           <select id="how-met" name="howMet">
             <option value="">Please select</option>
-            <option value="conference">Conference</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="referral">Referral</option>
-            <option value="other">Other</option>
+            <option value="conference" <%= contact.howMet === 'conference' ? 'selected' : '' %>>Conference</option>
+            <option value="linkedin" <%= contact.howMet === 'linkedin' ? 'selected' : '' %>>LinkedIn</option>
+            <option value="referral" <%= contact.howMet === 'referral' ? 'selected' : '' %>>Referral</option>
+            <option value="other" <%= contact.howMet === 'other' ? 'selected' : '' %>>Other</option>
           </select>
           <span class="error" id="how-met-error"></span>
         </div>
 
         <div class="field half">
           <label for="other">Other (please specify)</label>
-          <input type="text" id="other" name="other">
+          <input type="text" id="other" name="other" value="<%= contact.other || '' %>">
         </div>
 
         <div class="field full">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4"></textarea>
+          <textarea id="message" name="message" rows="4"><%= contact.message || '' %></textarea>
         </div>
       </div>
 
       <div class="checkbox-row">
-        <input type="checkbox" id="mailing-list" name="mailingList">
+        <input type="checkbox" id="mailing-list" name="mailingList" <%= contact.mailingList ? 'checked' : '' %>>
         <label for="mailing-list">Please add me to your mailing list</label>
       </div>
 
       <fieldset class="format-row">
         <legend>Choose an email format:</legend>
-        <input type="radio" id="html" name="emailFormat" value="html" checked>
+        <input type="radio" id="html" name="emailFormat" value="html" <%= contact.emailFormat !== 'text' ? 'checked' : '' %>>
         <label for="html">HTML</label>
-        <input type="radio" id="text" name="emailFormat" value="text">
+        <input type="radio" id="text" name="emailFormat" value="text" <%= contact.emailFormat === 'text' ? 'checked' : '' %>>
         <label for="text">Text</label>
       </fieldset>
 
       <button type="submit">Submit</button>
     </form>
   </main>
-<p class="footer"><a href="https://github.com/AlexandrBalan/contact-form">GitHub Repo</a></p>
+  <p class="footer"><a href="https://github.com/AlexandrBalan/contact-form">GitHub Repo</a></p>
   <script src="/scripts/script.js"></script>
 </body>
 </html>
